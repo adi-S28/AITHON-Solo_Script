@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Page</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.0/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <header class="navbar">
+        <div class="nav-actions">
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('index') }}">Home</a></li>
+                    <li><a href="{{ url_for('add_card') }}">Add Card</a></li>
+                    <li><a href="{{ url_for('insights') }}">Insights</a></li>
+                    {% if session['username'] %}
+                        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('login') }}">Login</a></li>
+                    {% endif %}
+                    <li><a href="/templates/docs.html"></a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container mx-auto p-4">
+        <h1 class="text-2xl font-bold mb-4">Make a Payment</h1>
+        <form action="{{ url_for('index') }}" method="post" class="bg-white p-6 rounded-lg shadow-md">
+            <div class="mb-4">
+                <label for="sender_card_number" class="block text-gray-700 font-bold mb-2">Sender Card Number:</label>
+                <input type="text" id="sender_card_number" name="sender_card_number" onkeyup="fetchSuggestions(this.value)" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <ul id="suggestions" class="bg-white border border-gray-300 rounded shadow-md mt-2 max-h-32 overflow-auto"></ul>
+            </div>
+            <div class="mb-4">
+                <label for="amount" class="block text-gray-700 font-bold mb-2">Amount:</label>
+                <input type="number" id="amount" name="amount" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <div class="mb-4">
+                <label for="recipient_card_number" class="block text-gray-700 font-bold mb-2">Recipient Card Number:</label>
+                <input type="text" id="recipient_card_number" name="recipient_card_number" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <div class="flex items-center justify-between">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    Submit
+                </button>
+            </div>
+        </form>
+        <a href="{{ url_for('add_card') }}" class="text-blue-500 hover:text-blue-700 mt-4 block">Add a new card</a>
+    </div>
+
+    <script>
+        function fetchSuggestions(query) {
+            if (query.length === 0) {
+                document.getElementById('suggestions').innerHTML = '';
+                return;
+            }
+            
+            fetch(`/get_card_suggestions?card_number=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    let suggestions = data.suggestions.map(card => `<li class="p-2 cursor-pointer hover:bg-gray-200" onclick="selectSuggestion('${card}')">${card}</li>`).join('');
+                    document.getElementById('suggestions').innerHTML = `<ul>${suggestions}</ul>`;
+                });
+        }
+
+        function selectSuggestion(cardNumber) {
+            document.getElementById('sender_card_number').value = cardNumber;
+            document.getElementById('suggestions').innerHTML = '';
+        }
+    </script>
+    
+    <h1>Welcome, {{ session['username'] }}</h1>
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Card</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex justify-center items-center min-h-screen">
+    <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+        <h1 class="text-2xl font-bold mb-4">Add New Card</h1>
+        <form action="{{ url_for('add_card') }}" method="POST">
+            <div class="mb-4">
+                <label for="card_number" class="block text-gray-700 font-bold mb-2">Card Number</label>
+                <input type="text" name="card_number" id="card_number" maxlength="16" required
+                       class="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <div class="mb-4">
+                <label for="card_type" class="block text-gray-700 font-bold mb-2">Card Type</label>
+                <select name="card_type" id="card_type" required
+                        class="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="credit">Credit</option>
+                    <option value="debit">Debit</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label for="expiration_date" class="block text-gray-700 font-bold mb-2">Expiration Date</label>
+                <input type="date" name="expiration_date" id="expiration_date" required
+                       class="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <div class="mb-4">
+                <label for="cvv" class="block text-gray-700 font-bold mb-2">CVV</label>
+                <input type="password" name="cvv" id="cvv" maxlength="3" required
+                       class="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <div class="mb-4">
+                <label for="initial_balance" class="block text-gray-700 font-bold mb-2">Initial Balance</label>
+                <input type="text" name="initial_balance" id="initial_balance" required
+                       class="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <div class="flex justify-between items-center">
+                <button type="submit"
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    Add Card
+                </button>
+                <a href="{{ url_for('index') }}"
+                   class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

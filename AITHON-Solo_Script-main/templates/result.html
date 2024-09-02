@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Transaction Result</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Transaction Result</h1>
+        <p>Card Number: **** **** **** {{ transaction.card_number }}</p>
+        <p>Amount: ${{ transaction.amount }}</p>
+        <p>Location: {{ transaction.location }}</p>
+        <p>Status: {{ 'Success' if transaction.processing_success else 'Failed' }}</p>
+        <p>Fraudulent: {{ 'Yes' if transaction.is_fraud else 'No' }}</p>
+        <br>
+        <a href="/">Back to Payment</a>
+        <br>
+        <a href="/insights">View Insights</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,16 @@
+import pickle
+from sklearn.ensemble import RandomForestClassifier
+
+# Example: training a model
+model = RandomForestClassifier()
+model.fit(X_train, y_train)
+
+# Save the model
+with open('fraud_model.pkl', 'wb') as file:
+    pickle.dump(model, file)
+    
+import pickle
+
+# Load the model
+with open('fraud_model.pkl', 'rb') as file:
+    model = pickle.load(file)
